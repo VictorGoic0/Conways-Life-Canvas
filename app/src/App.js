@@ -13,6 +13,21 @@ class App extends Component {
     this.initializeGrid();
   }
 
+  toggleBlock(id) {
+    this.setState({
+      ...this.state,
+      blocks: this.state.blocks.map(block => {
+        if (block.id === id) {
+          return {
+            ...block,
+            alive: !block.alive
+          };
+        }
+        return block;
+      })
+    });
+  }
+
   initializeGrid() {
     const blocks = generateBlocks();
     const flattened = blocks.reduce((acc, val) => acc.concat(val));
@@ -55,7 +70,7 @@ class App extends Component {
     if (blocks.length > 0) {
       return (
         <div className="app-container">
-          <Grid blocks={blocks} />
+          <Grid blocks={blocks} toggleBlock={this.toggleBlock} />
         </div>
       );
     }

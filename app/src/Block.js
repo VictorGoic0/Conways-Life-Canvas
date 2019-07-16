@@ -1,7 +1,11 @@
 import React from "react";
 
-const Block = ({ block }) => {
-  return <div className="block">Block</div>;
+const Block = ({ block, toggleBlock }) => {
+  return (
+    <div className="block" onClick={() => toggleBlock(block.id)}>
+      Block
+    </div>
+  );
 };
 
 export default Block;
