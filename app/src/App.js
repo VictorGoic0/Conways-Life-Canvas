@@ -27,7 +27,24 @@ class App extends Component {
     let ongoing = true;
     const { blocks, neighbors } = this.state;
     while (ongoing) {
-      // Life algorithm goes here
+      for (let block of blocks) {
+        let aliveNeighbors = 0;
+        let neighbors = neighbors[block.id];
+        neighbors.forEach(index => {
+          if (blocks[index].alive) {
+            aliveNeighbors += 1;
+          }
+        });
+        if (aliveNeighbors >= 3) {
+          if (!block.alive) {
+            block = { ...block, alive: true };
+          }
+        } else {
+          if (block.alive) {
+            block = { ...block, alive: false };
+          }
+        }
+      }
     }
   }
 
