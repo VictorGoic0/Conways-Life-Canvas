@@ -6,7 +6,8 @@ import generateNeighbors from "./utility/generateNeighbors";
 class App extends Component {
   state = {
     blocks: [],
-    neighbors: {}
+    neighbors: {},
+    generation: 0
   };
   componentDidMount() {
     this.initializeGrid();
@@ -36,13 +37,13 @@ class App extends Component {
             aliveNeighbors += 1;
           }
         });
-        if (aliveNeighbors >= 3) {
-          if (!block.alive) {
-            block = { ...block, alive: true };
+        if (block.alive) {
+          if (!aliveNeighbors === 2 || !aliveNeighbors === 3) {
+            block = { ...block, alive: false };
           }
         } else {
-          if (block.alive) {
-            block = { ...block, alive: false };
+          if (aliveNeighbors === 3) {
+            block = { ...block, alive: true };
           }
         }
       }
