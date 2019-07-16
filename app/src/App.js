@@ -59,10 +59,10 @@ class App extends Component {
         }
       });
       if (block.alive) {
-        if (aliveNeighbors !== 2 || aliveNeighbors !== 3) {
-          block = { ...block, alive: false };
+        if (aliveNeighbors === 2 || aliveNeighbors === 3) {
           return block;
         }
+        block = { ...block, alive: false };
         return block;
       } else {
         if (aliveNeighbors === 3) {
@@ -72,7 +72,6 @@ class App extends Component {
         return block;
       }
     });
-    console.log(newBlocks);
     this.setState({
       ...this.state,
       generation: this.state.generation + 1,
@@ -96,7 +95,6 @@ class App extends Component {
       blocks: flattened,
       generation: 0
     });
-    console.log(this.state);
   };
 
   render() {
