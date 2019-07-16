@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Graph from "./Graph";
 
 class App extends Component {
   state = {
@@ -20,8 +21,23 @@ class App extends Component {
     });
   }
 
+  beginGame() {
+    let ongoing = true;
+    while (ongoing) {
+      // Life algorithm goes here
+    }
+  }
+
   render() {
-    return <div className="app-container" />;
+    const { blocks } = this.state;
+    if (blocks.length > 0) {
+      return (
+        <div className="app-container">
+          <Graph blocks={blocks} />
+        </div>
+      );
+    }
+    return <h1>Generating graph...</h1>;
   }
 }
 
