@@ -41,10 +41,7 @@ class App extends Component {
   }
 
   beginGame = () => {
-    let ongoing = true;
-    while (ongoing) {
-      setInterval(this.nextGrid(), 2000);
-    }
+    setInterval(this.nextGrid, 200);
   };
 
   nextGrid = () => {
@@ -104,7 +101,7 @@ class App extends Component {
         <div className="app-container">
           <p>Generation number {generation}</p>
           <Grid blocks={blocks} toggleBlock={this.toggleBlock} />
-          <button onClick={this.nextGrid}>Start</button>
+          <button onClick={this.beginGame}>Start</button>
           <button onClick={this.restartGame}>Restart</button>
         </div>
       );
