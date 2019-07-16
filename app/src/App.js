@@ -88,6 +88,17 @@ class App extends Component {
     });
   };
 
+  restartGame = () => {
+    const blocks = generateBlocks();
+    const flattened = blocks.reduce((acc, val) => acc.concat(val));
+    this.setState({
+      ...this.state,
+      blocks: flattened,
+      generation: 0
+    });
+    console.log(this.state);
+  };
+
   render() {
     const { blocks, generation } = this.state;
     if (blocks.length > 0) {
@@ -96,6 +107,7 @@ class App extends Component {
           <p>Generation number {generation}</p>
           <Grid blocks={blocks} toggleBlock={this.toggleBlock} />
           <button onClick={this.nextGrid}>Start</button>
+          <button onClick={this.restartGame}>Restart</button>
         </div>
       );
     }
