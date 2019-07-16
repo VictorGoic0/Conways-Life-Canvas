@@ -2,9 +2,10 @@ import React from "react";
 
 const Block = ({ block, toggleBlock }) => {
   return (
-    <div className="block" onClick={() => toggleBlock(block.id)}>
-      Block
-    </div>
+    <div
+      className={`block ${block.alive ? `alive` : ``}`}
+      onClick={() => toggleBlock(block.id)}
+    />
   );
 };
 

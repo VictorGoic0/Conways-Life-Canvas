@@ -13,7 +13,7 @@ class App extends Component {
     this.initializeGrid();
   }
 
-  toggleBlock(id) {
+  toggleBlock = id => {
     this.setState({
       ...this.state,
       blocks: this.state.blocks.map(block => {
@@ -26,7 +26,7 @@ class App extends Component {
         return block;
       })
     });
-  }
+  };
 
   initializeGrid() {
     const blocks = generateBlocks();
