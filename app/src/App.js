@@ -6,6 +6,7 @@ import generateNeighbors from "./utility/generateNeighbors";
 class App extends Component {
   state = {
     blocks: [],
+    nextBlocks: [],
     neighbors: {},
     generation: 0
   };
@@ -39,38 +40,62 @@ class App extends Component {
     });
   }
 
-  beginGame() {
+  beginGame = () => {
     let ongoing = true;
-    const { blocks, neighbors } = this.state;
-    const newBlocks = blocks.concat();
     while (ongoing) {
-      for (let block of newBlocks) {
-        let aliveNeighbors = 0;
-        let neighborIndices = neighbors[block.id];
-        neighborIndices.forEach(index => {
-          if (newBlocks[index].alive) {
-            aliveNeighbors += 1;
-          }
-        });
-        if (block.alive) {
-          if (!aliveNeighbors === 2 || !aliveNeighbors === 3) {
-            block = { ...block, alive: false };
-          }
-        } else {
-          if (aliveNeighbors === 3) {
-            block = { ...block, alive: true };
-          }
-        }
-      }
+      setInterval(this.nextGrid(), 2000);
     }
-  }
+  };
+
+  nextGrid = () => {
+    console.log(this.state.generation);
+    const { blocks, neighbors } = this.state;
+    const newBlocks = blocks.map(block => {
+      let aliveNeighbors = 0;
+      let neighborIndices = neighbors[block.id];
+      neighborIndices.forEach(index => {
+        if (blocks[index].alive) {
+          aliveNeighbors += 1;
+        }
+      });
+      if (block.alive) {
+        if (aliveNeighbors !== 2 || aliveNeighbors !== 3) {
+          block = { ...block, alive: false };
+          return block;
+        }
+        return block;
+      } else {
+        if (aliveNeighbors === 3) {
+          block = { ...block, alive: true };
+          return block;
+        }
+        return block;
+      }
+    });
+    console.log(newBlocks);
+    this.setState({
+      ...this.state,
+      generation: this.state.generation + 1,
+      blocks: newBlocks
+    });
+  };
+
+  switchBuffers = () => {
+    this.setState({
+      ...this.state,
+      blocks: this.state.nextBlocks,
+      nextBlocks: []
+    });
+  };
 
   render() {
-    const { blocks } = this.state;
+    const { blocks, generation } = this.state;
     if (blocks.length > 0) {
       return (
         <div className="app-container">
+          <p>Generation number {generation}</p>
           <Grid blocks={blocks} toggleBlock={this.toggleBlock} />
+          <button onClick={this.nextGrid}>Start</button>
         </div>
       );
     }
