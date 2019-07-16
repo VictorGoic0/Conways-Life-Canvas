@@ -1,9 +1,9 @@
 import React from "react";
 import Block from "./Block";
 
-const Graph = ({ blocks }) => {
+const Grid = ({ blocks }) => {
   return (
-    <div className="graph-container">
+    <div className="grid-container">
       {blocks.map(block => (
         <Block key={block.id} block={block} />
       ))}
@@ -11,4 +11,4 @@ const Graph = ({ blocks }) => {
   );
 };
 
-export default Graph;
+export default Grid;

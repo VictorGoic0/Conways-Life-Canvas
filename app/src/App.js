@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Graph from "./Graph";
+import Grid from "./Grid";
 import generateBlocks from "./utility/generateBlocks";
 import generateNeighbors from "./utility/generateNeighbors";
 
@@ -9,10 +9,10 @@ class App extends Component {
     neighbors: {}
   };
   componentDidMount() {
-    this.initializeGraph();
+    this.initializeGrid();
   }
 
-  initializeGraph() {
+  initializeGrid() {
     const blocks = generateBlocks();
     const flattened = blocks.reduce((acc, val) => acc.concat(val));
     const neighbors = generateNeighbors(blocks);
@@ -26,12 +26,13 @@ class App extends Component {
   beginGame() {
     let ongoing = true;
     const { blocks, neighbors } = this.state;
+    const newBlocks = blocks.concat();
     while (ongoing) {
-      for (let block of blocks) {
+      for (let block of newBlocks) {
         let aliveNeighbors = 0;
-        let neighbors = neighbors[block.id];
-        neighbors.forEach(index => {
-          if (blocks[index].alive) {
+        let neighborIndices = neighbors[block.id];
+        neighborIndices.forEach(index => {
+          if (newBlocks[index].alive) {
             aliveNeighbors += 1;
           }
         });
@@ -53,11 +54,11 @@ class App extends Component {
     if (blocks.length > 0) {
       return (
         <div className="app-container">
-          <Graph blocks={blocks} />
+          <Grid blocks={blocks} />
         </div>
       );
     }
-    return <h1>Generating graph...</h1>;
+    return <h1>Generating Grid...</h1>;
   }
 }
 
