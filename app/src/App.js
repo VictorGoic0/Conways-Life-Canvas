@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Grid from "./Grid";
 import generateBlocks from "./utility/generateBlocks";
 import generateNeighbors from "./utility/generateNeighbors";
+import randomNumber from "./utility/randomNumber";
 
 class App extends Component {
   state = {
@@ -103,6 +104,27 @@ class App extends Component {
     });
   };
 
+  populateGrid = () => {
+    const { blocks } = this.state;
+    const randomNumbers = randomNumber(Date.now(), blocks.length);
+    console.log(randomNumbers);
+    const newBlocks = blocks.concat();
+    const length = randomNumbers.length;
+    for (let i = 0; i < length; i++) {
+      const current = randomNumbers[i];
+      if (current in newBlocks) {
+        newBlocks[current] = {
+          ...newBlocks[current],
+          alive: true
+        };
+      }
+    }
+    this.setState(prevState => ({
+      ...prevState,
+      blocks: newBlocks
+    }));
+  };
+
   render() {
     const { blocks, generation } = this.state;
     if (blocks.length > 0) {
@@ -113,6 +135,7 @@ class App extends Component {
           <button onClick={this.beginGame}>Start</button>
           <button onClick={this.pauseGame}>Pause</button>
           <button onClick={this.restartGame}>Restart</button>
+          <button onClick={this.populateGrid}>Randomize</button>
         </div>
       );
     }

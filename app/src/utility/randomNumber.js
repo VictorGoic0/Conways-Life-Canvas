@@ -6,7 +6,7 @@ const randomNumber = (seed, max) => {
   let array = new Array(Math.round(max / 3));
   const length = array.length;
   for (let i = 0; i < length; i++) {
-    const num = random(seed + i) * max;
+    const num = Math.round(random(seed + i) * max);
     array[i] = num;
   }
   return array;
