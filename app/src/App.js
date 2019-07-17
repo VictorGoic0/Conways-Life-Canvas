@@ -8,7 +8,8 @@ class App extends Component {
     blocks: [],
     nextBlocks: [],
     neighbors: {},
-    generation: 0
+    generation: 0,
+    paused: false
   };
   componentDidMount() {
     this.initializeGrid();
@@ -30,7 +31,7 @@ class App extends Component {
   };
 
   initializeGrid() {
-    const blocks = generateBlocks();
+    const blocks = generateBlocks(20, 20);
     const flattened = blocks.reduce((acc, val) => acc.concat(val));
     const neighbors = generateNeighbors(blocks);
     this.setState({
@@ -41,7 +42,9 @@ class App extends Component {
   }
 
   beginGame = () => {
-    setInterval(this.nextGrid, 200);
+    if (this.state.generation === 0) {
+      const timer = setInterval(this.nextGrid, 200);
+    }
   };
 
   nextGrid = () => {
@@ -94,6 +97,12 @@ class App extends Component {
     });
   };
 
+  pauseGame = () => {
+    this.setState({
+      paused: !this.state.paused
+    });
+  };
+
   render() {
     const { blocks, generation } = this.state;
     if (blocks.length > 0) {
@@ -102,6 +111,7 @@ class App extends Component {
           <p>Generation number {generation}</p>
           <Grid blocks={blocks} toggleBlock={this.toggleBlock} />
           <button onClick={this.beginGame}>Start</button>
+          <button onClick={this.pauseGame}>Pause</button>
           <button onClick={this.restartGame}>Restart</button>
         </div>
       );
