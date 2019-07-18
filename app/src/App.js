@@ -88,6 +88,17 @@ class App extends Component {
     }
   };
 
+  stepForward = () => {
+    const { blocks, neighbors } = this.state;
+    const newBlocks = this.nextGrid(blocks, neighbors);
+    this.setState({
+      ...this.state,
+      nextBlocks: newBlocks,
+      paused: true
+    });
+    this.switchBuffers();
+  };
+
   nextGrid = (blocks, neighbors) => {
     return blocks.map(block => {
       let aliveNeighbors = 0;
@@ -172,6 +183,7 @@ class App extends Component {
           <Grid blocks={blocks} toggleBlock={this.toggleBlock} />
           <button onClick={this.beginGame}>Start</button>
           <button onClick={this.pauseGame}>Pause</button>
+          <button onClick={this.stepForward}>Step</button>
           <button onClick={this.restartGame}>Restart</button>
           <button onClick={this.populateGrid}>Randomize</button>
         </div>
