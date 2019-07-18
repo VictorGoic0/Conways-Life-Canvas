@@ -1,20 +1,21 @@
 function generateNeighbors(array) {
   const length = array.length;
   const graph = {};
+  const levelLength = array[0].length;
   for (let i = 0; i < length; i++) {
-    for (let j = 0; j < array[i].length; j++) {
-      let object = array[i][j];
-      let item = object.id;
+    let level = array[i];
+    let top = i - 1;
+    let bottom = i + 1;
+    for (let j = 0; j < levelLength; j++) {
+      let item = level[j].id;
       graph[item] = new Set();
       let left = j - 1;
       let right = j + 1;
-      let top = i - 1;
-      let bottom = i + 1;
-      if (array[i][left]) {
-        graph[item].add(array[i][left].id);
+      if (level[left]) {
+        graph[item].add(level[left].id);
       }
-      if (array[i][right]) {
-        graph[item].add(array[i][right].id);
+      if (level[right]) {
+        graph[item].add(level[right].id);
       }
       if (array[top]) {
         graph[item].add(array[top][j].id);
