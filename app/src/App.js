@@ -56,6 +56,10 @@ class App extends Component {
 
   beginGame = () => {
     if (this.state.generation === 0) {
+      this.setState({
+        ...this.state,
+        paused: false
+      });
       const timer = setInterval(() => {
         if (this.state.paused) {
           clearInterval(timer);
@@ -139,8 +143,19 @@ class App extends Component {
       this.setState({
         ...this.state,
         blocks: flattened,
+        nextBlocks: flattened,
         generation: 0,
         paused: false
+      });
+    } else {
+      const blocks = generateBlocks(20, 20);
+      const flattened = blocks.reduce((acc, val) => acc.concat(val));
+      this.setState({
+        ...this.state,
+        blocks: flattened,
+        nextBlocks: flattened,
+        generation: -1,
+        paused: true
       });
     }
   };
@@ -179,7 +194,7 @@ class App extends Component {
     if (blocks.length > 0) {
       return (
         <div className="app-container">
-          <p>Generation number {generation}</p>
+          <p>Generation number: {generation}</p>
           <Grid blocks={blocks} toggleBlock={this.toggleBlock} />
           <button onClick={this.beginGame}>Start</button>
           <button onClick={this.pauseGame}>Pause</button>
