@@ -62,53 +62,59 @@ class App extends Component {
         }
         this.switchBuffers();
         const { blocks, neighbors } = this.state;
-        const newBlocks = blocks.map(block => {
-          let aliveNeighbors = 0;
-          let neighborIndices = neighbors[block.id];
-          neighborIndices.forEach(index => {
-            if (blocks[index].alive) {
-              aliveNeighbors += 1;
-            }
-          });
-          if (block.alive) {
-            if (aliveNeighbors === 2 || aliveNeighbors === 3) {
-              return block;
-            }
-            block = { ...block, alive: false };
-            return block;
-          } else {
-            if (aliveNeighbors === 3) {
-              block = { ...block, alive: true };
-              return block;
-            }
-            return block;
-          }
-        });
+        const newBlocks = this.nextGrid(blocks, neighbors);
         this.setState({
           ...this.state,
-          generation: this.state.generation + 1,
           nextBlocks: newBlocks
         });
       }, 50);
     }
   };
 
+  nextGrid = (blocks, neighbors) => {
+    return blocks.map(block => {
+      let aliveNeighbors = 0;
+      let neighborIndices = neighbors[block.id];
+      neighborIndices.forEach(index => {
+        if (blocks[index].alive) {
+          aliveNeighbors += 1;
+        }
+      });
+      if (block.alive) {
+        if (aliveNeighbors === 2 || aliveNeighbors === 3) {
+          return block;
+        }
+        block = { ...block, alive: false };
+        return block;
+      } else {
+        if (aliveNeighbors === 3) {
+          block = { ...block, alive: true };
+          return block;
+        }
+        return block;
+      }
+    });
+  };
+
   switchBuffers = () => {
     this.setState(prevState => ({
       ...prevState,
-      blocks: prevState.nextBlocks
+      blocks: prevState.nextBlocks,
+      generation: prevState.generation + 1
     }));
   };
 
   restartGame = () => {
-    const blocks = generateBlocks(20, 20);
-    const flattened = blocks.reduce((acc, val) => acc.concat(val));
-    this.setState({
-      ...this.state,
-      blocks: flattened,
-      generation: 0,
-      paused: false
-    });
+    if (this.state.paused) {
+      const blocks = generateBlocks(20, 20);
+      const flattened = blocks.reduce((acc, val) => acc.concat(val));
+      this.setState({
+        ...this.state,
+        blocks: flattened,
+        generation: 0,
+        paused: false
+      });
+    }
   };
 
   pauseGame = () => {
