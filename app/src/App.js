@@ -28,6 +28,15 @@ class App extends Component {
             };
           }
           return block;
+        }),
+        nextBlocks: this.state.blocks.map(block => {
+          if (block.id === id) {
+            return {
+              ...block,
+              alive: !block.alive
+            };
+          }
+          return block;
         })
       });
     }
@@ -40,6 +49,7 @@ class App extends Component {
     this.setState({
       ...this.state,
       blocks: flattened,
+      nextBlocks: flattened,
       neighbors
     });
   }
@@ -50,6 +60,7 @@ class App extends Component {
         if (this.state.paused) {
           clearInterval(timer);
         }
+        this.switchBuffers();
         const { blocks, neighbors } = this.state;
         const newBlocks = blocks.map(block => {
           let aliveNeighbors = 0;
@@ -76,18 +87,17 @@ class App extends Component {
         this.setState({
           ...this.state,
           generation: this.state.generation + 1,
-          blocks: newBlocks
+          nextBlocks: newBlocks
         });
       }, 50);
     }
   };
 
   switchBuffers = () => {
-    this.setState({
-      ...this.state,
-      blocks: this.state.nextBlocks,
-      nextBlocks: []
-    });
+    this.setState(prevState => ({
+      ...prevState,
+      blocks: prevState.nextBlocks
+    }));
   };
 
   restartGame = () => {
@@ -124,7 +134,8 @@ class App extends Component {
       }
       this.setState(prevState => ({
         ...prevState,
-        blocks: newBlocks
+        blocks: newBlocks,
+        nextBlocks: newBlocks
       }));
     }
   };
@@ -137,7 +148,7 @@ class App extends Component {
           <p>Generation number {generation}</p>
           <Grid blocks={blocks} toggleBlock={this.toggleBlock} />
           <button onClick={this.beginGame}>Start</button>
-          <button onClick={this.pauseGame}>Pause</button>
+          <button onClick={this.pauseGame}>Stop</button>
           <button onClick={this.restartGame}>Restart</button>
           <button onClick={this.populateGrid}>Randomize</button>
         </div>
