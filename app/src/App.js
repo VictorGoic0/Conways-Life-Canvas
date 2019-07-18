@@ -194,13 +194,15 @@ class App extends Component {
     if (blocks.length > 0) {
       return (
         <div className="app-container">
-          <p>Generation number: {generation}</p>
+          <h4>Generation number: {generation}</h4>
           <Grid blocks={blocks} toggleBlock={this.toggleBlock} />
-          <button onClick={this.beginGame}>Start</button>
-          <button onClick={this.pauseGame}>Pause</button>
-          <button onClick={this.stepForward}>Step</button>
-          <button onClick={this.restartGame}>Restart</button>
-          <button onClick={this.populateGrid}>Randomize</button>
+          <div className="buttons">
+            <button onClick={this.beginGame}>Start</button>
+            <button onClick={this.pauseGame}>Pause</button>
+            <button onClick={this.stepForward}>Step</button>
+            <button onClick={this.restartGame}>Restart</button>
+            <button onClick={this.populateGrid}>Randomize</button>
+          </div>
         </div>
       );
     }
