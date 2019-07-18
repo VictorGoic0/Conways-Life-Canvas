@@ -68,6 +68,23 @@ class App extends Component {
           nextBlocks: newBlocks
         });
       }, 50);
+    } else if (this.state.generation > 0 && this.state.paused) {
+      this.setState({
+        ...this.state,
+        paused: false
+      });
+      const timer = setInterval(() => {
+        if (this.state.paused) {
+          clearInterval(timer);
+        }
+        this.switchBuffers();
+        const { blocks, neighbors } = this.state;
+        const newBlocks = this.nextGrid(blocks, neighbors);
+        this.setState({
+          ...this.state,
+          nextBlocks: newBlocks
+        });
+      }, 50);
     }
   };
 
@@ -154,7 +171,7 @@ class App extends Component {
           <p>Generation number {generation}</p>
           <Grid blocks={blocks} toggleBlock={this.toggleBlock} />
           <button onClick={this.beginGame}>Start</button>
-          <button onClick={this.pauseGame}>Stop</button>
+          <button onClick={this.pauseGame}>Pause</button>
           <button onClick={this.restartGame}>Restart</button>
           <button onClick={this.populateGrid}>Randomize</button>
         </div>
