@@ -1,7 +1,7 @@
 [build]
 base = "/app"
 publish = "/app/build"
-command = "yarn build"
+command = "npx yarn build"
 
 [[redirects]]
 from = "/*"
