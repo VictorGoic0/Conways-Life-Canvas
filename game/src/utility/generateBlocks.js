@@ -7,7 +7,9 @@ function generateBlocks(width, height) {
   for (let i = 0; i < length; i++) {
     let object = {
       id: i,
-      alive: false
+      alive: false,
+      x: counter,
+      y: mainCounter
     };
     subArray[counter] = object;
     counter += 1;
