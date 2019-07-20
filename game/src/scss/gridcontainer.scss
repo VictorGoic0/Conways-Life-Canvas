@@ -1,0 +1,15 @@
+.grid-container {
+  width: 602px;
+  margin: 10px auto 0px auto;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  .block {
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+  }
+  .block.alive {
+    background-color: red;
+  }
+}

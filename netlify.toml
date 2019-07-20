@@ -1,0 +1,9 @@
+[build]
+base = "/game"
+publish = "/game/build"
+command = "npx yarn build"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
